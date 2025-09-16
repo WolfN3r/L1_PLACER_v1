@@ -1,0 +1,5 @@
+{
+  "test": "Hello, World!",
+  "number": 42,
+  "array": [{"pole": 32}, {"pole": 64}]
+}
