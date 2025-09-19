@@ -1,5 +1,6 @@
 from bStarTreeBuilder import BStarTreeBuilder
 from initialPlacement import InitialPlacer
+from placementVisualizer import PlacementVisualizer
 
 
 def main():
@@ -28,7 +29,8 @@ def main():
 
     #######################################################################################
     # Visualization
-
+    VisuAlize = PlacementVisualizer()
+    VisuAlize.main_local(placement_output_filename)
     #######################################################################################
 
 if __name__ == "__main__":
