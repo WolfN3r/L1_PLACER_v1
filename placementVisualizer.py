@@ -186,95 +186,8 @@ class PlacementVisualizer:
 
         return node
 
-    def visualize_tree_structure(self):
-        """Visualizes the B* tree structure (similar to visualize_tree2 from tree2.py)."""
-        fig, ax_tree = plt.subplots(figsize=(12, 8))
-
-        def plot_node(node, x, y, depth, step=2.0, color='orange'):
-            circle = Circle((x, y), 0.2, color=color, ec='black', zorder=2)
-            ax_tree.add_patch(circle)
-            ax_tree.text(x - 0.4, y - 0.4, node.name, ha='center', va='bottom', fontsize=10, zorder=3)
-
-            # x_child: green arrow to the right
-            if hasattr(node, 'x_child') and node.x_child:
-                x_l = x + step
-                y_l = y
-                ax_tree.arrow(x, y, step, 0, head_width=0.15, head_length=0.5, fc='green', ec='green',
-                              length_includes_head=True)
-                plot_node(node.x_child, x_l, y_l, depth + 1, step)
-
-            # y_child: blue arrow upward
-            if hasattr(node, 'y_child') and node.y_child:
-                x_r = x
-                y_r = y + step
-                ax_tree.arrow(x, y, 0, step, head_width=0.15, head_length=0.5, fc='blue', ec='blue',
-                              length_includes_head=True)
-                plot_node(node.y_child, x_r, y_r, depth + 1, step)
-
-        if self.tree_root:
-            plot_node(self.tree_root, 0, 0, 1, color='darkgreen')
-
-        ax_tree.set_aspect('equal')
-        ax_tree.axis('off')
-        ax_tree.set_title("B* Tree Structure")
-        plt.tight_layout()
-        plt.show()
-
-    def visualize_placement(self):
-        """Visualizes the block placement."""
-        if not self.blocks:
-            print("No blocks to visualize.")
-            return
-
-        blocks_list = list(self.blocks.values())
-
-        # Calculate bounding box
-        x_min = min(block.x_min for block in blocks_list)
-        x_max = max(block.x_max for block in blocks_list)
-        y_min = min(block.y_min for block in blocks_list)
-        y_max = max(block.y_max for block in blocks_list)
-
-        # Assign colors to device types
-        device_types = list(set(block.device_type for block in blocks_list if block.device_type))
-        color_list = list(mcolors.TABLEAU_COLORS.values())
-        device_colors = {dtype: color_list[i % len(color_list)] for i, dtype in enumerate(device_types)}
-        device_colors[''] = 'lightgray'  # Default color for unknown device types
-
-        fig, ax = plt.subplots(figsize=(12, 8))
-
-        for block in blocks_list:
-            color = device_colors.get(block.device_type, 'lightgray')
-            rect = Rectangle((block.x_min, block.y_min),
-                             block.x_max - block.x_min,
-                             block.y_max - block.y_min,
-                             fill=True, edgecolor='black', facecolor=color, alpha=0.7)
-            ax.add_patch(rect)
-
-            # Add block name
-            center_x = block.get_center_x()
-            center_y = block.get_center_y()
-            ax.text(center_x, center_y, block.name, ha='center', va='center',
-                    fontsize=8, fontweight='bold')
-
-        ax.set_xlim(x_min - 1, x_max + 1)
-        ax.set_ylim(y_min - 1, y_max + 1)
-        ax.set_aspect('equal')
-        ax.set_title("Block Placement")
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-
-        # Add legend for device types
-        legend_elements = [plt.Rectangle((0, 0), 1, 1, facecolor=color, alpha=0.7, label=dtype if dtype else 'Unknown')
-                           for dtype, color in device_colors.items() if
-                           dtype or any(not b.device_type for b in blocks_list)]
-        if legend_elements:
-            ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1, 1))
-
-        plt.tight_layout()
-        plt.show()
-
-    def visualize_tree_and_blocks(self):
-        """Visualizes both tree structure and block placement side by side."""
+    def visualize_placement_and_tree(self):
+        """Visualizes both block placement and tree structure in one window."""
         if not self.blocks or not self.tree_root:
             print("No data to visualize.")
             return
@@ -307,78 +220,7 @@ class PlacementVisualizer:
             center_x = block.get_center_x()
             center_y = block.get_center_y()
             ax_blocks.text(center_x, center_y, block.name, ha='center', va='center',
-                           fontsize=8, fontweight='bold')
-
-        ax_blocks.set_xlim(x_min - 1, x_max + 1)
-        ax_blocks.set_ylim(y_min - 1, y_max + 1)
-        ax_blocks.set_aspect('equal')
-        ax_blocks.set_title("Block Placement")
-        ax_blocks.set_xlabel('X')
-        ax_blocks.set_ylabel('Y')
-
-        # --- Tree structure (right side) ---
-        def plot_node(node, x, y, depth, step=2.0, color='orange'):
-            circle = Circle((x, y), 0.2, color=color, ec='black', zorder=2)
-            ax_tree.add_patch(circle)
-            ax_tree.text(x - 0.4, y - 0.4, node.name, ha='center', va='bottom', fontsize=10, zorder=3)
-
-            if hasattr(node, 'x_child') and node.x_child:
-                x_l = x + step
-                y_l = y
-                ax_tree.arrow(x, y, step, 0, head_width=0.15, head_length=0.5, fc='green', ec='green',
-                              length_includes_head=True)
-                plot_node(node.x_child, x_l, y_l, depth + 1, step)
-
-            if hasattr(node, 'y_child') and node.y_child:
-                x_r = x
-                y_r = y + step
-                ax_tree.arrow(x, y, 0, step, head_width=0.15, head_length=0.5, fc='blue', ec='blue',
-                              length_includes_head=True)
-                plot_node(node.y_child, x_r, y_r, depth + 1, step)
-
-        plot_node(self.tree_root, 0, 0, 1, color='darkgreen')
-        ax_tree.set_aspect('equal')
-        ax_tree.axis('off')
-        ax_tree.set_title("B* Tree Structure")
-
-        plt.tight_layout()
-        plt.show()
-
-    def visualize_placement_with_nets(self):
-        """Visualizes block placement with net connections."""
-        if not self.blocks:
-            print("No blocks to visualize.")
-            return
-
-        blocks_list = list(self.blocks.values())
-
-        # Calculate bounding box
-        x_min = min(block.x_min for block in blocks_list)
-        x_max = max(block.x_max for block in blocks_list)
-        y_min = min(block.y_min for block in blocks_list)
-        y_max = max(block.y_max for block in blocks_list)
-
-        # Assign colors to device types
-        device_types = list(set(block.device_type for block in blocks_list if block.device_type))
-        color_list = list(mcolors.TABLEAU_COLORS.values())
-        device_colors = {dtype: color_list[i % len(color_list)] for i, dtype in enumerate(device_types)}
-        device_colors[''] = 'lightgray'
-
-        fig, ax = plt.subplots(figsize=(14, 10))
-
-        # Draw blocks
-        for block in blocks_list:
-            color = device_colors.get(block.device_type, 'lightgray')
-            rect = Rectangle((block.x_min, block.y_min),
-                             block.x_max - block.x_min,
-                             block.y_max - block.y_min,
-                             fill=True, edgecolor='black', facecolor=color, alpha=0.7)
-            ax.add_patch(rect)
-
-            center_x = block.get_center_x()
-            center_y = block.get_center_y()
-            ax.text(center_x, center_y, block.name, ha='center', va='center',
-                    fontsize=8, fontweight='bold')
+                           fontsize=10, fontweight='bold')
 
         # Draw net connections
         if self.nets:
@@ -389,21 +231,55 @@ class PlacementVisualizer:
                         for j in range(i + 1, len(centers)):
                             x0, y0 = centers[i]
                             x1, y1 = centers[j]
-                            ax.plot([x0, x1], [y0, y1], color='red', linewidth=1.5, alpha=0.6, zorder=1)
+                            ax_blocks.plot([x0, x1], [y0, y1], color='red', linewidth=1.5, alpha=0.6, zorder=1)
 
-        ax.set_xlim(x_min - 1, x_max + 1)
-        ax.set_ylim(y_min - 1, y_max + 1)
-        ax.set_aspect('equal')
-        ax.set_title("Block Placement with Net Connections")
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
+        ax_blocks.set_xlim(x_min - 1, x_max + 1)
+        ax_blocks.set_ylim(y_min - 1, y_max + 1)
+        ax_blocks.set_aspect('equal')
+        ax_blocks.set_title("Block Placement with Net Connections", fontsize=14, fontweight='bold')
+        ax_blocks.set_xlabel('X Coordinate')
+        ax_blocks.set_ylabel('Y Coordinate')
 
         # Add legend
         legend_elements = [plt.Rectangle((0, 0), 1, 1, facecolor=color, alpha=0.7, label=dtype if dtype else 'Unknown')
                            for dtype, color in device_colors.items() if
                            dtype or any(not b.device_type for b in blocks_list)]
         if legend_elements:
-            ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1, 1))
+            ax_blocks.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1, 1))
+
+        # --- Tree structure (right side) ---
+        def plot_node(node, x, y, depth, step=2.0, color='orange'):
+            circle = Circle((x, y), 0.2, color=color, ec='black', zorder=2)
+            ax_tree.add_patch(circle)
+            ax_tree.text(x, y - 0.6, node.name, ha='center', va='top', fontsize=9, zorder=3)
+
+            if hasattr(node, 'x_child') and node.x_child:
+                x_l = x + step
+                y_l = y
+                ax_tree.arrow(x, y, step - 0.2, 0, head_width=0.15, head_length=0.2, fc='green', ec='green',
+                              length_includes_head=True)
+                plot_node(node.x_child, x_l, y_l, depth + 1, step)
+
+            if hasattr(node, 'y_child') and node.y_child:
+                x_r = x
+                y_r = y + step
+                ax_tree.arrow(x, y, 0, step - 0.2, head_width=0.15, head_length=0.2, fc='blue', ec='blue',
+                              length_includes_head=True)
+                plot_node(node.y_child, x_r, y_r, depth + 1, step)
+
+        plot_node(self.tree_root, 0, 0, 1, color='darkgreen')
+        ax_tree.set_aspect('equal')
+        ax_tree.axis('off')
+        ax_tree.set_title("B* Tree Structure", fontsize=14, fontweight='bold')
+
+        # Add legend for tree
+        legend_elements_tree = [
+            plt.Line2D([0], [0], color='green', lw=2, label='X-child (horizontal)'),
+            plt.Line2D([0], [0], color='blue', lw=2, label='Y-child (vertical)'),
+            plt.Circle((0, 0), 0.1, color='darkgreen', label='Root node'),
+            plt.Circle((0, 0), 0.1, color='orange', label='Tree nodes')
+        ]
+        ax_tree.legend(handles=legend_elements_tree, loc='upper right')
 
         plt.tight_layout()
         plt.show()
@@ -433,12 +309,9 @@ class PlacementVisualizer:
             print("No placement statistics available.")
 
     def visualize_all(self):
-        """Creates all visualizations."""
+        """Creates the main visualization with placement and tree."""
         self.print_placement_statistics()
-        self.visualize_tree_structure()
-        self.visualize_placement()
-        self.visualize_tree_and_blocks()
-        self.visualize_placement_with_nets()
+        self.visualize_placement_and_tree()
 
     def main_local(self, input_filename):
         """Main method for local file processing."""
