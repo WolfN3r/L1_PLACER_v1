@@ -1,4 +1,5 @@
-from filterInputJSON import JSONBlockFilter
+from bStarTreeBuilder import BStarTreeBuilder
+
 
 def main():
     # wmi HINTME: change the name of the input file as needed
@@ -8,16 +9,6 @@ def main():
     # wmi TODO: do not filter data, just add new keys to the existing JSON structure
     # structure of the data flow has to be linear, no branches
     # each step takes JSON input and produces JSON output to be compatible with n8n
-
-    #######################################################################################
-    # Load unfiltered JSON file
-    # Getting rid of the irrelevant data
-    #b1_filterInput = JSONBlockFilter()
-    #b1_filterInput.load_json_file(f"{input_filename}.json")
-    #b1_filterInput.extract_selected_keys()
-    #b1_filterInput.print_data()
-
-    #######################################################################################
 
     #######################################################################################
     # Build B* tree
