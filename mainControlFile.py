@@ -1,4 +1,3 @@
-import sys
 from filterInputJSON import JSONBlockFilter
 
 def main():
@@ -13,10 +12,10 @@ def main():
     #######################################################################################
     # Load unfiltered JSON file
     # Getting rid of the irrelevant data
-    b1_filterInput = JSONBlockFilter()
-    b1_filterInput.load_json_file(f"{input_filename}.json")
-    b1_filterInput.extract_selected_keys()
-    b1_filterInput.print_data()
+    #b1_filterInput = JSONBlockFilter()
+    #b1_filterInput.load_json_file(f"{input_filename}.json")
+    #b1_filterInput.extract_selected_keys()
+    #b1_filterInput.print_data()
 
     #######################################################################################
 
