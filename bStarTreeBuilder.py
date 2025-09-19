@@ -294,20 +294,18 @@ class BStarTreeBuilder:
                         "y_min": unit.r_half.y_min,
                         "x_max": unit.r_half.x_max,
                         "y_max": unit.r_half.y_max
-                    }
+                    },
+                    "x_child": self.serialize_tree_to_dict(unit.x_child, "symmetry_unit") if unit.x_child else None,
+                    "y_child": self.serialize_tree_to_dict(unit.y_child, "symmetry_unit") if unit.y_child else None
                 }
-
-                if unit.x_child:
-                    unit_dict["x_child"] = self.serialize_tree_to_dict(unit.x_child, "symmetry_unit")
-                if unit.y_child:
-                    unit_dict["y_child"] = self.serialize_tree_to_dict(unit.y_child, "symmetry_unit")
 
                 node_dict["units"].append(unit_dict)
 
-        if hasattr(node, 'x_child') and node.x_child:
-            node_dict["x_child"] = self.serialize_tree_to_dict(node.x_child, "tree_node")
-        if hasattr(node, 'y_child') and node.y_child:
-            node_dict["y_child"] = self.serialize_tree_to_dict(node.y_child, "tree_node")
+        # Always include x_child and y_child, even if None
+        node_dict["x_child"] = self.serialize_tree_to_dict(node.x_child, "tree_node") if hasattr(node,
+                                                                                                 'x_child') and node.x_child else None
+        node_dict["y_child"] = self.serialize_tree_to_dict(node.y_child, "tree_node") if hasattr(node,
+                                                                                                 'y_child') and node.y_child else None
 
         return node_dict
 
@@ -370,15 +368,29 @@ class BStarTreeBuilder:
         self.process_json_and_build_tree()
         self.output_to_n8n()
 
-    def main_file(self, input_filename, output_filename):
-        """Main method for file-based processing."""
-        if not self.load_json_file(input_filename):
+    def main_local(self, input_filename, output_filename):
+        """Main method for local file processing with full filenames."""
+        input_file = f"{input_filename}.json"
+        output_file = f"{output_filename}.json"
+
+        if not self.load_json_file(input_file):
+            print(f"Error: Could not load input file {input_file}")
             return False
 
         if not self.process_json_and_build_tree():
+            print(f"Error: Could not process JSON and build B* tree")
             return False
 
-        return self.save_to_file(output_filename)
+        if not self.save_to_file(output_file):
+            print(f"Error: Could not save output file {output_file}")
+            return False
+
+        print(f"Successfully created B* tree structure:")
+        print(f"  Input: {input_file}")
+        print(f"  Output: {output_file}")
+        print(f"  Processed {len(self.blocks)} blocks")
+        print(f"  Created {len(self.bstar_tree_nodes)} tree nodes")
+        return True
 
 
 def build_bstar_tree_from_files(input_filename, output_filename):
@@ -411,12 +423,6 @@ def build_bstar_tree_from_files(input_filename, output_filename):
 
 
 if __name__ == "__main__":
-    # Check if running in n8n mode or file mode
-    if len(sys.argv) > 1 and sys.argv[1] == "n8n":
-        builder = BStarTreeBuilder()
-        builder.main_n8n()
-    else:
-        # Default file mode for testing
-        input_filename = 'loadDevices_in01'
-        output_filename = 'loadDevices_out01'
-        build_bstar_tree_from_files(input_filename, output_filename)
+    # n8n integration mode only
+    builder = BStarTreeBuilder()
+    builder.main_n8n()
