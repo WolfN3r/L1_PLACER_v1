@@ -1,0 +1,1527 @@
+{
+  "project": {
+    "name": "CASE1",
+    "description": "Analog circuit layout with differential pairs and current mirrors",
+    "version": "1.0"
+  },
+  "devices": [
+    {
+      "name": "nmos1v",
+      "deviceType": "NMOS",
+      "libName": "gpdk090",
+      "layers": {
+        "active": [
+          {
+            "x_min": -0.28,
+            "y_min": 0.0,
+            "x_max": 6.6,
+            "y_max": 10.0
+          }
+        ],
+        "poly": [
+          {
+            "x_min": 0.0,
+            "x_max": 3.0,
+            "y_min": 0.0,
+            "y_max": 10.0
+          },
+          {
+            "x_min": 3.32,
+            "x_max": 6.32,
+            "y_min": 0.0,
+            "y_max": 10.0
+          }
+        ],
+        "poly_pocket": []
+      },
+      "crossSection": {
+        "active": [
+          [
+            -0.28,
+            6.6
+          ]
+        ],
+        "poly": [
+          [
+            0.0,
+            3.0
+          ],
+          [
+            3.32,
+            6.32
+          ]
+        ],
+        "poly_pocket": []
+      },
+      "processParameters": {
+        "a2p": 0.28,
+        "p2p": 0.32,
+        "x_total": 6.88,
+        "y_total": 10.0
+      },
+      "pCellEnvelope": {
+        "x_min": -0.28,
+        "x_max": 6.6,
+        "y_min": 0.0,
+        "y_max": 10.0
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "name": "BB0",
+      "merge_device_names": [
+        "MM0",
+        "MM1"
+      ],
+      "variants": [
+        {
+          "width": 9.11,
+          "height": 11.08,
+          "column_multiple": 8,
+          "row_multiple": 2,
+          "is_default": true
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net5",
+          "net8"
+        ],
+        "gate": [
+          "Vin",
+          "Vip"
+        ],
+        "source": [
+          "net3",
+          "net3"
+        ],
+        "bulk": [
+          "vdd!",
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "BB0"
+      },
+      "symmetry": {
+        "type": "self_symmetric",
+        "description": "BB0 block must be placed on symmetry axis"
+      }
+    },
+    {
+      "name": "MM2",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 4.74,
+          "column_multiple": 1,
+          "row_multiple": 1,
+          "is_default": true
+        }
+      ],
+      "device_type": "NMOS",
+      "pins": {
+        "drain": [
+          "net5"
+        ],
+        "gate": [
+          "Vb4"
+        ],
+        "source": [
+          "gnd!"
+        ],
+        "bulk": [
+          "gnd!"
+        ]
+      },
+      "params": {
+        "label": "MM2"
+      },
+      "symmetry": {
+        "type": "pair_symmetric",
+        "pair_with": "MM3",
+        "description": "MM2 and MM3 must be placed symmetrically"
+      }
+    },
+    {
+      "name": "MM3",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 4.74,
+          "column_multiple": 1,
+          "row_multiple": 1,
+          "is_default": true
+        }
+      ],
+      "device_type": "NMOS",
+      "pins": {
+        "drain": [
+          "net8"
+        ],
+        "gate": [
+          "Vb4"
+        ],
+        "source": [
+          "gnd!"
+        ],
+        "bulk": [
+          "gnd!"
+        ]
+      },
+      "params": {
+        "label": "MM3"
+      },
+      "symmetry": {
+        "type": "pair_symmetric",
+        "pair_with": "MM2",
+        "description": "MM2 and MM3 must be placed symmetrically"
+      }
+    },
+    {
+      "name": "MM4",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 18.96,
+          "column_multiple": 1,
+          "row_multiple": 4,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 9.48,
+          "column_multiple": 2,
+          "row_multiple": 2,
+          "is_default": false
+        },
+        {
+          "width": 4.99,
+          "height": 4.74,
+          "column_multiple": 4,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "NMOS",
+      "pins": {
+        "drain": [
+          "Vo"
+        ],
+        "gate": [
+          "Vb3"
+        ],
+        "source": [
+          "net5"
+        ],
+        "bulk": [
+          "gnd!"
+        ]
+      },
+      "params": {
+        "label": "MM4"
+      }
+    },
+    {
+      "name": "MM5",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 18.96,
+          "column_multiple": 1,
+          "row_multiple": 4,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 9.48,
+          "column_multiple": 2,
+          "row_multiple": 2,
+          "is_default": false
+        },
+        {
+          "width": 4.99,
+          "height": 4.74,
+          "column_multiple": 4,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "NMOS",
+      "pins": {
+        "drain": [
+          "net23"
+        ],
+        "gate": [
+          "Vb3"
+        ],
+        "source": [
+          "net8"
+        ],
+        "bulk": [
+          "gnd!"
+        ]
+      },
+      "params": {
+        "label": "MM5"
+      }
+    },
+    {
+      "name": "MM6",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 8.48,
+          "column_multiple": 1,
+          "row_multiple": 2,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 4.24,
+          "column_multiple": 2,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "Vo"
+        ],
+        "gate": [
+          "net23"
+        ],
+        "source": [
+          "net24"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM6"
+      }
+    },
+    {
+      "name": "MM7",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 8.48,
+          "column_multiple": 1,
+          "row_multiple": 2,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 4.24,
+          "column_multiple": 2,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net23"
+        ],
+        "gate": [
+          "net23"
+        ],
+        "source": [
+          "net27"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM7"
+      }
+    },
+    {
+      "name": "MM8",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 8.48,
+          "column_multiple": 1,
+          "row_multiple": 2,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 4.24,
+          "column_multiple": 2,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net24"
+        ],
+        "gate": [
+          "net27"
+        ],
+        "source": [
+          "vdd!"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM8"
+      }
+    },
+    {
+      "name": "MM9",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 8.48,
+          "column_multiple": 1,
+          "row_multiple": 2,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 4.24,
+          "column_multiple": 2,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net27"
+        ],
+        "gate": [
+          "net27"
+        ],
+        "source": [
+          "vdd!"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM9"
+      }
+    },
+    {
+      "name": "MM10",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 55.4,
+          "column_multiple": 1,
+          "row_multiple": 10,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 27.7,
+          "column_multiple": 2,
+          "row_multiple": 5,
+          "is_default": false
+        },
+        {
+          "width": 11.17,
+          "height": 5.54,
+          "column_multiple": 10,
+          "row_multiple": 1,
+          "is_default": false
+        },
+        {
+          "width": 6.02,
+          "height": 11.08,
+          "column_multiple": 5,
+          "row_multiple": 2,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net3"
+        ],
+        "gate": [
+          "Vb2"
+        ],
+        "source": [
+          "net2"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM10"
+      }
+    },
+    {
+      "name": "MM11",
+      "variants": [
+        {
+          "width": 1.9,
+          "height": 11.08,
+          "column_multiple": 1,
+          "row_multiple": 2,
+          "is_default": true
+        },
+        {
+          "width": 2.93,
+          "height": 5.54,
+          "column_multiple": 2,
+          "row_multiple": 1,
+          "is_default": false
+        }
+      ],
+      "device_type": "PMOS",
+      "pins": {
+        "drain": [
+          "net2"
+        ],
+        "gate": [
+          "Vb1"
+        ],
+        "source": [
+          "vdd!"
+        ],
+        "bulk": [
+          "vdd!"
+        ]
+      },
+      "params": {
+        "label": "MM11"
+      }
+    }
+  ],
+  "netlist": {
+    "subckt_name": "CASE1",
+    "pins": [
+      "Vb1",
+      "Vb2",
+      "Vb3",
+      "Vb4",
+      "Vin",
+      "Vip",
+      "Vo",
+      "gnd!",
+      "vdd!"
+    ],
+    "instances": [
+      {
+        "name": "MM0",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net5",
+          "gate": "Vin",
+          "source": "net3",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "4.8u",
+          "L": "0.5u",
+          "m": 8
+        },
+        "block": "BB0"
+      },
+      {
+        "name": "MM1",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net8",
+          "gate": "Vip",
+          "source": "net3",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "4.8u",
+          "L": "0.5u",
+          "m": 8
+        },
+        "block": "BB0"
+      },
+      {
+        "name": "MM2",
+        "device_type": "NMOS",
+        "connections": {
+          "drain": "net5",
+          "gate": "Vb4",
+          "source": "gnd!",
+          "bulk": "gnd!"
+        },
+        "parameters": {
+          "W": "4u",
+          "L": "0.5u",
+          "m": 1
+        },
+        "block": "MM2"
+      },
+      {
+        "name": "MM3",
+        "device_type": "NMOS",
+        "connections": {
+          "drain": "net8",
+          "gate": "Vb4",
+          "source": "gnd!",
+          "bulk": "gnd!"
+        },
+        "parameters": {
+          "W": "4u",
+          "L": "0.5u",
+          "m": 1
+        },
+        "block": "MM3"
+      },
+      {
+        "name": "MM4",
+        "device_type": "NMOS",
+        "connections": {
+          "drain": "Vo",
+          "gate": "Vb3",
+          "source": "net5",
+          "bulk": "gnd!"
+        },
+        "parameters": {
+          "W": "4u",
+          "L": "0.5u",
+          "m": 4
+        },
+        "block": "MM4"
+      },
+      {
+        "name": "MM5",
+        "device_type": "NMOS",
+        "connections": {
+          "drain": "net23",
+          "gate": "Vb3",
+          "source": "net8",
+          "bulk": "gnd!"
+        },
+        "parameters": {
+          "W": "4u",
+          "L": "0.5u",
+          "m": 4
+        },
+        "block": "MM5"
+      },
+      {
+        "name": "MM6",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "Vo",
+          "gate": "net23",
+          "source": "net24",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "3.5u",
+          "L": "0.5u",
+          "m": 2
+        },
+        "block": "MM6"
+      },
+      {
+        "name": "MM7",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net23",
+          "gate": "net23",
+          "source": "net27",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "3.5u",
+          "L": "0.5u",
+          "m": 2
+        },
+        "block": "MM7"
+      },
+      {
+        "name": "MM8",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net24",
+          "gate": "net27",
+          "source": "vdd!",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "3.5u",
+          "L": "0.5u",
+          "m": 2
+        },
+        "block": "MM8"
+      },
+      {
+        "name": "MM9",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net27",
+          "gate": "net27",
+          "source": "vdd!",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "3.5u",
+          "L": "0.5u",
+          "m": 2
+        },
+        "block": "MM9"
+      },
+      {
+        "name": "MM10",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net3",
+          "gate": "Vb2",
+          "source": "net2",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "4.8u",
+          "L": "0.5u",
+          "m": 10
+        },
+        "block": "MM10"
+      },
+      {
+        "name": "MM11",
+        "device_type": "PMOS",
+        "connections": {
+          "drain": "net2",
+          "gate": "Vb1",
+          "source": "vdd!",
+          "bulk": "vdd!"
+        },
+        "parameters": {
+          "W": "4.8u",
+          "L": "0.5u",
+          "m": 2
+        },
+        "block": "MM11"
+      }
+    ],
+    "nets": [
+      {
+        "name": "Vb1",
+        "connected_instances": [
+          "MM11"
+        ],
+        "connected_pins": [
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vb2",
+        "connected_instances": [
+          "MM10"
+        ],
+        "connected_pins": [
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vb3",
+        "connected_instances": [
+          "MM4",
+          "MM5"
+        ],
+        "connected_pins": [
+          "gate",
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vb4",
+        "connected_instances": [
+          "MM2",
+          "MM3"
+        ],
+        "connected_pins": [
+          "gate",
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vin",
+        "connected_instances": [
+          "MM0"
+        ],
+        "connected_pins": [
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vip",
+        "connected_instances": [
+          "MM1"
+        ],
+        "connected_pins": [
+          "gate"
+        ],
+        "net_type": "input",
+        "description": ""
+      },
+      {
+        "name": "Vo",
+        "connected_instances": [
+          "MM4",
+          "MM6"
+        ],
+        "connected_pins": [
+          "drain",
+          "drain"
+        ],
+        "net_type": "output",
+        "description": ""
+      },
+      {
+        "name": "gnd!",
+        "connected_instances": [
+          "MM2",
+          "MM3",
+          "MM4",
+          "MM5",
+          "MM6",
+          "MM7",
+          "MM8",
+          "MM9"
+        ],
+        "connected_pins": [
+          "source",
+          "source",
+          "bulk",
+          "bulk",
+          "bulk",
+          "bulk",
+          "bulk",
+          "bulk"
+        ],
+        "net_type": "power",
+        "description": ""
+      },
+      {
+        "name": "vdd!",
+        "connected_instances": [
+          "MM0",
+          "MM1",
+          "MM6",
+          "MM7",
+          "MM8",
+          "MM9",
+          "MM10",
+          "MM11"
+        ],
+        "connected_pins": [
+          "bulk",
+          "bulk",
+          "bulk",
+          "bulk",
+          "source",
+          "source",
+          "bulk",
+          "source"
+        ],
+        "net_type": "power",
+        "description": ""
+      },
+      {
+        "name": "net3",
+        "connected_instances": [
+          "MM10",
+          "MM11"
+        ],
+        "connected_pins": [
+          "source",
+          "drain"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net2",
+        "connected_instances": [
+          "MM0",
+          "MM1",
+          "MM10"
+        ],
+        "connected_pins": [
+          "source",
+          "source",
+          "drain"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net5",
+        "connected_instances": [
+          "MM0",
+          "MM2",
+          "MM4"
+        ],
+        "connected_pins": [
+          "drain",
+          "drain",
+          "source"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net8",
+        "connected_instances": [
+          "MM1",
+          "MM3",
+          "MM5"
+        ],
+        "connected_pins": [
+          "drain",
+          "drain",
+          "source"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net23",
+        "connected_instances": [
+          "MM5",
+          "MM6",
+          "MM7"
+        ],
+        "connected_pins": [
+          "drain",
+          "gate",
+          "drain"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net24",
+        "connected_instances": [
+          "MM6",
+          "MM8"
+        ],
+        "connected_pins": [
+          "source",
+          "drain"
+        ],
+        "net_type": "internal",
+        "description": ""
+      },
+      {
+        "name": "net27",
+        "connected_instances": [
+          "MM7",
+          "MM8",
+          "MM9"
+        ],
+        "connected_pins": [
+          "source",
+          "gate",
+          "drain"
+        ],
+        "net_type": "internal",
+        "description": ""
+      }
+    ]
+  },
+  "layout_constraints": {
+    "aspect_ratio": {
+      "target": 2.0,
+      "tolerance": 0.5,
+      "max": 3.0
+    },
+    "spacing": {
+      "minimum_block_spacing": 0.1,
+      "minimum_power_rail_width": 0.2
+    },
+    "block_priorities": {
+      "BB0": 0,
+      "MM2": 0,
+      "MM3": 0,
+      "MM4": 0,
+      "MM5": 0,
+      "MM6": 0,
+      "MM7": 0,
+      "MM8": 0,
+      "MM9": 0,
+      "MM10": 0,
+      "MM11": 0
+    },
+    "net_priorities": {
+      "Vb1": 0,
+      "Vb2": 0,
+      "Vb3": 0,
+      "Vb4": 0,
+      "Vin": 0,
+      "Vip": 0,
+      "Vo": 0,
+      "gnd!": 0,
+      "vdd!": 0,
+      "net2": 0,
+      "net3": 0,
+      "net5": 0,
+      "net8": 0,
+      "net23": 0,
+      "net24": 0,
+      "net27": 0
+    },
+    "priority_policy": {
+      "description": "Lower integer means higher placement/routing priority; 0 is highest; defaults to 0 for all.",
+      "highest_priority_value": 0
+    }
+  },
+  "bstar_tree": {
+    "description": "B* tree structure with initial block placement",
+    "root": {
+      "name": "MM11",
+      "type": "tree_node",
+      "x_min": 0.0,
+      "y_min": 0.0,
+      "x_max": 28.11,
+      "y_max": 55.4,
+      "units": [
+        {
+          "l_half": {
+            "name": "MM11",
+            "width": 1.9,
+            "height": 11.08,
+            "x_min": 0.0,
+            "y_min": 0.0,
+            "x_max": 1.9,
+            "y_max": 11.08,
+            "current_variant": {
+              "width": 1.9,
+              "height": 11.08,
+              "column_multiple": 1,
+              "row_multiple": 2,
+              "is_default": true
+            },
+            "variant_index": 0
+          },
+          "r_half": {
+            "name": "MM11",
+            "width": 1.9,
+            "height": 11.08,
+            "x_min": 0.0,
+            "y_min": 0.0,
+            "x_max": 1.9,
+            "y_max": 11.08,
+            "current_variant": {
+              "width": 1.9,
+              "height": 11.08,
+              "column_multiple": 1,
+              "row_multiple": 2,
+              "is_default": true
+            },
+            "variant_index": 0
+          },
+          "x_child": null,
+          "y_child": null
+        }
+      ],
+      "x_child": {
+        "name": "MM6",
+        "type": "tree_node",
+        "x_min": 1.9,
+        "y_min": 0.0,
+        "x_max": 28.11,
+        "y_max": 55.4,
+        "units": [
+          {
+            "l_half": {
+              "name": "MM6",
+              "width": 1.9,
+              "height": 8.48,
+              "x_min": 1.9,
+              "y_min": 0.0,
+              "x_max": 3.8,
+              "y_max": 8.48,
+              "current_variant": {
+                "width": 1.9,
+                "height": 8.48,
+                "column_multiple": 1,
+                "row_multiple": 2,
+                "is_default": true
+              },
+              "variant_index": 0
+            },
+            "r_half": {
+              "name": "MM6",
+              "width": 1.9,
+              "height": 8.48,
+              "x_min": 1.9,
+              "y_min": 0.0,
+              "x_max": 3.8,
+              "y_max": 8.48,
+              "current_variant": {
+                "width": 1.9,
+                "height": 8.48,
+                "column_multiple": 1,
+                "row_multiple": 2,
+                "is_default": true
+              },
+              "variant_index": 0
+            },
+            "x_child": null,
+            "y_child": null
+          }
+        ],
+        "x_child": {
+          "name": "MM5",
+          "type": "tree_node",
+          "x_min": 3.8,
+          "y_min": 0.0,
+          "x_max": 28.11,
+          "y_max": 55.4,
+          "units": [
+            {
+              "l_half": {
+                "name": "MM5",
+                "width": 1.9,
+                "height": 18.96,
+                "x_min": 3.8,
+                "y_min": 0.0,
+                "x_max": 5.7,
+                "y_max": 18.96,
+                "current_variant": {
+                  "width": 1.9,
+                  "height": 18.96,
+                  "column_multiple": 1,
+                  "row_multiple": 4,
+                  "is_default": true
+                },
+                "variant_index": 0
+              },
+              "r_half": {
+                "name": "MM5",
+                "width": 1.9,
+                "height": 18.96,
+                "x_min": 3.8,
+                "y_min": 0.0,
+                "x_max": 5.7,
+                "y_max": 18.96,
+                "current_variant": {
+                  "width": 1.9,
+                  "height": 18.96,
+                  "column_multiple": 1,
+                  "row_multiple": 4,
+                  "is_default": true
+                },
+                "variant_index": 0
+              },
+              "x_child": null,
+              "y_child": null
+            }
+          ],
+          "x_child": {
+            "name": "MM8",
+            "type": "tree_node",
+            "x_min": 5.7,
+            "y_min": 0.0,
+            "x_max": 28.11,
+            "y_max": 55.4,
+            "units": [
+              {
+                "l_half": {
+                  "name": "MM8",
+                  "width": 1.9,
+                  "height": 8.48,
+                  "x_min": 5.7,
+                  "y_min": 0.0,
+                  "x_max": 7.6,
+                  "y_max": 8.48,
+                  "current_variant": {
+                    "width": 1.9,
+                    "height": 8.48,
+                    "column_multiple": 1,
+                    "row_multiple": 2,
+                    "is_default": true
+                  },
+                  "variant_index": 0
+                },
+                "r_half": {
+                  "name": "MM8",
+                  "width": 1.9,
+                  "height": 8.48,
+                  "x_min": 5.7,
+                  "y_min": 0.0,
+                  "x_max": 7.6,
+                  "y_max": 8.48,
+                  "current_variant": {
+                    "width": 1.9,
+                    "height": 8.48,
+                    "column_multiple": 1,
+                    "row_multiple": 2,
+                    "is_default": true
+                  },
+                  "variant_index": 0
+                },
+                "x_child": null,
+                "y_child": null
+              }
+            ],
+            "x_child": {
+              "name": "sym_pair_MM2_MM3",
+              "type": "tree_node",
+              "x_min": 7.6,
+              "y_min": 0.0,
+              "x_max": 28.11,
+              "y_max": 55.4,
+              "units": [
+                {
+                  "l_half": {
+                    "name": "MM3",
+                    "width": 1.9,
+                    "height": 4.74,
+                    "x_min": 7.6,
+                    "y_min": 0.0,
+                    "x_max": 9.5,
+                    "y_max": 4.74,
+                    "current_variant": {
+                      "width": 1.9,
+                      "height": 4.74,
+                      "column_multiple": 1,
+                      "row_multiple": 1,
+                      "is_default": true
+                    },
+                    "variant_index": 0
+                  },
+                  "r_half": {
+                    "name": "MM2",
+                    "width": 1.9,
+                    "height": 4.74,
+                    "x_min": 9.5,
+                    "y_min": 0.0,
+                    "x_max": 11.4,
+                    "y_max": 4.74,
+                    "current_variant": {
+                      "width": 1.9,
+                      "height": 4.74,
+                      "column_multiple": 1,
+                      "row_multiple": 1,
+                      "is_default": true
+                    },
+                    "variant_index": 0
+                  },
+                  "x_child": null,
+                  "y_child": null
+                }
+              ],
+              "x_child": {
+                "name": "MM4",
+                "type": "tree_node",
+                "x_min": 11.4,
+                "y_min": 0.0,
+                "x_max": 28.11,
+                "y_max": 55.4,
+                "units": [
+                  {
+                    "l_half": {
+                      "name": "MM4",
+                      "width": 1.9,
+                      "height": 18.96,
+                      "x_min": 11.4,
+                      "y_min": 0.0,
+                      "x_max": 13.3,
+                      "y_max": 18.96,
+                      "current_variant": {
+                        "width": 1.9,
+                        "height": 18.96,
+                        "column_multiple": 1,
+                        "row_multiple": 4,
+                        "is_default": true
+                      },
+                      "variant_index": 0
+                    },
+                    "r_half": {
+                      "name": "MM4",
+                      "width": 1.9,
+                      "height": 18.96,
+                      "x_min": 11.4,
+                      "y_min": 0.0,
+                      "x_max": 13.3,
+                      "y_max": 18.96,
+                      "current_variant": {
+                        "width": 1.9,
+                        "height": 18.96,
+                        "column_multiple": 1,
+                        "row_multiple": 4,
+                        "is_default": true
+                      },
+                      "variant_index": 0
+                    },
+                    "x_child": null,
+                    "y_child": null
+                  }
+                ],
+                "x_child": {
+                  "name": "MM10",
+                  "type": "tree_node",
+                  "x_min": 13.3,
+                  "y_min": 0.0,
+                  "x_max": 28.11,
+                  "y_max": 55.4,
+                  "units": [
+                    {
+                      "l_half": {
+                        "name": "MM10",
+                        "width": 1.9,
+                        "height": 55.4,
+                        "x_min": 13.3,
+                        "y_min": 0.0,
+                        "x_max": 15.2,
+                        "y_max": 55.4,
+                        "current_variant": {
+                          "width": 1.9,
+                          "height": 55.4,
+                          "column_multiple": 1,
+                          "row_multiple": 10,
+                          "is_default": true
+                        },
+                        "variant_index": 0
+                      },
+                      "r_half": {
+                        "name": "MM10",
+                        "width": 1.9,
+                        "height": 55.4,
+                        "x_min": 13.3,
+                        "y_min": 0.0,
+                        "x_max": 15.2,
+                        "y_max": 55.4,
+                        "current_variant": {
+                          "width": 1.9,
+                          "height": 55.4,
+                          "column_multiple": 1,
+                          "row_multiple": 10,
+                          "is_default": true
+                        },
+                        "variant_index": 0
+                      },
+                      "x_child": null,
+                      "y_child": null
+                    }
+                  ],
+                  "x_child": {
+                    "name": "sym_self_BB0",
+                    "type": "tree_node",
+                    "x_min": 15.2,
+                    "y_min": 0.0,
+                    "x_max": 28.11,
+                    "y_max": 11.08,
+                    "units": [
+                      {
+                        "l_half": {
+                          "name": "BB0",
+                          "width": 9.11,
+                          "height": 11.08,
+                          "x_min": 15.2,
+                          "y_min": 0.0,
+                          "x_max": 24.31,
+                          "y_max": 11.08,
+                          "current_variant": {
+                            "width": 9.11,
+                            "height": 11.08,
+                            "column_multiple": 8,
+                            "row_multiple": 2,
+                            "is_default": true
+                          },
+                          "variant_index": 0
+                        },
+                        "r_half": {
+                          "name": "BB0",
+                          "width": 9.11,
+                          "height": 11.08,
+                          "x_min": 15.2,
+                          "y_min": 0.0,
+                          "x_max": 24.31,
+                          "y_max": 11.08,
+                          "current_variant": {
+                            "width": 9.11,
+                            "height": 11.08,
+                            "column_multiple": 8,
+                            "row_multiple": 2,
+                            "is_default": true
+                          },
+                          "variant_index": 0
+                        },
+                        "x_child": null,
+                        "y_child": null
+                      }
+                    ],
+                    "x_child": {
+                      "name": "MM9",
+                      "type": "tree_node",
+                      "x_min": 24.31,
+                      "y_min": 0.0,
+                      "x_max": 28.11,
+                      "y_max": 8.48,
+                      "units": [
+                        {
+                          "l_half": {
+                            "name": "MM9",
+                            "width": 1.9,
+                            "height": 8.48,
+                            "x_min": 24.31,
+                            "y_min": 0.0,
+                            "x_max": 26.21,
+                            "y_max": 8.48,
+                            "current_variant": {
+                              "width": 1.9,
+                              "height": 8.48,
+                              "column_multiple": 1,
+                              "row_multiple": 2,
+                              "is_default": true
+                            },
+                            "variant_index": 0
+                          },
+                          "r_half": {
+                            "name": "MM9",
+                            "width": 1.9,
+                            "height": 8.48,
+                            "x_min": 24.31,
+                            "y_min": 0.0,
+                            "x_max": 26.21,
+                            "y_max": 8.48,
+                            "current_variant": {
+                              "width": 1.9,
+                              "height": 8.48,
+                              "column_multiple": 1,
+                              "row_multiple": 2,
+                              "is_default": true
+                            },
+                            "variant_index": 0
+                          },
+                          "x_child": null,
+                          "y_child": null
+                        }
+                      ],
+                      "x_child": {
+                        "name": "MM7",
+                        "type": "tree_node",
+                        "x_min": 26.21,
+                        "y_min": 0.0,
+                        "x_max": 28.11,
+                        "y_max": 8.48,
+                        "units": [
+                          {
+                            "l_half": {
+                              "name": "MM7",
+                              "width": 1.9,
+                              "height": 8.48,
+                              "x_min": 26.21,
+                              "y_min": 0.0,
+                              "x_max": 28.11,
+                              "y_max": 8.48,
+                              "current_variant": {
+                                "width": 1.9,
+                                "height": 8.48,
+                                "column_multiple": 1,
+                                "row_multiple": 2,
+                                "is_default": true
+                              },
+                              "variant_index": 0
+                            },
+                            "r_half": {
+                              "name": "MM7",
+                              "width": 1.9,
+                              "height": 8.48,
+                              "x_min": 26.21,
+                              "y_min": 0.0,
+                              "x_max": 28.11,
+                              "y_max": 8.48,
+                              "current_variant": {
+                                "width": 1.9,
+                                "height": 8.48,
+                                "column_multiple": 1,
+                                "row_multiple": 2,
+                                "is_default": true
+                              },
+                              "variant_index": 0
+                            },
+                            "x_child": null,
+                            "y_child": null
+                          }
+                        ],
+                        "x_child": null,
+                        "y_child": null
+                      },
+                      "y_child": null
+                    },
+                    "y_child": null
+                  },
+                  "y_child": null
+                },
+                "y_child": null
+              },
+              "y_child": null
+            },
+            "y_child": null
+          },
+          "y_child": null
+        },
+        "y_child": null
+      },
+      "y_child": null
+    },
+    "total_nodes": 10,
+    "symmetry_groups": 2,
+    "blocks_order": [
+      "BB0",
+      "MM2",
+      "MM3",
+      "MM4",
+      "MM5",
+      "MM6",
+      "MM7",
+      "MM8",
+      "MM9",
+      "MM10",
+      "MM11"
+    ],
+    "placement_statistics": {
+      "total_blocks": 11,
+      "placed_blocks": 11,
+      "total_block_area": 381.7588,
+      "bounding_box": {
+        "x_min": 0.0,
+        "y_min": 0.0,
+        "x_max": 28.11,
+        "y_max": 55.4,
+        "width": 28.11,
+        "height": 55.4,
+        "area": 1557.294
+      },
+      "utilization_percent": 24.51,
+      "device_type_counts": {
+        "PMOS": 7,
+        "NMOS": 4
+      },
+      "aspect_ratio": 1.971
+    }
+  }
+}
