@@ -1,6 +1,7 @@
 from bStarTreeBuilder import BStarTreeBuilder
 from initialPlacement import InitialPlacer
 from placementVisualizer import PlacementVisualizer
+from simulatedAnnealingOptimizer import SimulatedAnnealingOptimizer
 
 
 def main():
@@ -38,7 +39,13 @@ def main():
 
     #######################################################################################
     # Optimize Placement
+    SAoptimizer = SimulatedAnnealingOptimizer()
+    SAoptimizer.main_local(placement_output_filename, placement_output_filename)
+    #######################################################################################
 
+    #######################################################################################
+    # Visualization
+    VisuAlize.main_local(placement_output_filename)
     #######################################################################################
 
 if __name__ == "__main__":
