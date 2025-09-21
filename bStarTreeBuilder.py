@@ -294,14 +294,13 @@ class BStarTreeBuilder:
                         "y_min": unit.r_half.y_min,
                         "x_max": unit.r_half.x_max,
                         "y_max": unit.r_half.y_max
-                    },
-                    "x_child": self.serialize_tree_to_dict(unit.x_child, "symmetry_unit") if unit.x_child else None,
-                    "y_child": self.serialize_tree_to_dict(unit.y_child, "symmetry_unit") if unit.y_child else None
+                    }
+                    # REMOVED: x_child and y_child should NOT be here in units
                 }
 
                 node_dict["units"].append(unit_dict)
 
-        # Always include x_child and y_child, even if None
+        # Always include x_child and y_child at the tree node level only
         node_dict["x_child"] = self.serialize_tree_to_dict(node.x_child, "tree_node") if hasattr(node,
                                                                                                  'x_child') and node.x_child else None
         node_dict["y_child"] = self.serialize_tree_to_dict(node.y_child, "tree_node") if hasattr(node,

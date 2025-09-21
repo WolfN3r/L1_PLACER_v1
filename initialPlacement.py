@@ -22,6 +22,7 @@ class PlacementBlock:
         self.current_variant = None
         self.device_type = ""
         self.is_placed = False
+        self.color = "FFFFFF"  # Default white color
 
     def get_width(self):
         return self.x_max - self.x_min if self.x_max > self.x_min else self.width
@@ -81,6 +82,7 @@ class PlacementTreeNode:
         self.y_min = 0.0
         self.x_max = 0.0
         self.y_max = 0.0
+        self.color = "FFFFFF"  # Default color for tree nodes
 
 
 class InitialPlacer:
@@ -93,6 +95,8 @@ class InitialPlacer:
         self.tree_root = None
         self.placement_statistics = {}
         self.rng = random.Random()
+        self.symmetry_groups = {}  # Store symmetry group information
+        self.used_colors = []  # Track used colors to prevent similar ones
 
     def load_json_file(self, input_filename):
         """Loads a JSON file and stores the data."""
@@ -118,6 +122,174 @@ class InitialPlacer:
             self.original_data = None
             self.processed_data = None
             return None
+
+    def hsv_to_rgb(self, h, s, v):
+        """Convert HSV color to RGB hex string."""
+        import colorsys
+        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        return f"{int(r * 255):02X}{int(g * 255):02X}{int(b * 255):02X}"
+
+    def color_distance(self, color1, color2):
+        """Calculate the perceptual distance between two colors in RGB space."""
+        # Convert hex to RGB
+        r1 = int(color1[0:2], 16)
+        g1 = int(color1[2:4], 16)
+        b1 = int(color1[4:6], 16)
+
+        r2 = int(color2[0:2], 16)
+        g2 = int(color2[2:4], 16)
+        b2 = int(color2[4:6], 16)
+
+        # Use weighted euclidean distance (accounts for human perception)
+        dr = r1 - r2
+        dg = g1 - g2
+        db = b1 - b2
+
+        # Weights based on human eye sensitivity
+        return ((2 + (r1 + r2) / 256) * dr * dr +
+                4 * dg * dg +
+                (2 + (255 - r1 - r2) / 256) * db * db) ** 0.5
+
+    def is_color_too_similar(self, new_color, min_distance=80):
+        """Check if a color is too similar to existing colors."""
+        for existing_color in self.used_colors:
+            if self.color_distance(new_color, existing_color) < min_distance:
+                return True
+        return False
+
+    def generate_random_color(self):
+        """Generate a random hex color from the full spectrum with good separation."""
+        max_attempts = 100
+
+        for attempt in range(max_attempts):
+            # Use HSV color space for better distribution across the spectrum
+            # Hue: 0-360 degrees (full spectrum)
+            hue = self.rng.uniform(0, 1)
+
+            # Saturation: 0.6-1.0 (avoid washed out colors)
+            saturation = self.rng.uniform(0.6, 1.0)
+
+            # Value/Brightness: 0.5-0.9 (avoid too dark or too bright)
+            value = self.rng.uniform(0.5, 0.9)
+
+            # Convert to hex
+            color = self.hsv_to_rgb(hue, saturation, value)
+
+            # Check if this color is sufficiently different from existing ones
+            if not self.is_color_too_similar(color):
+                self.used_colors.append(color)
+                return color
+
+        # Fallback: if we can't find a sufficiently different color after max_attempts,
+        # generate a color anyway (better than infinite loop)
+        fallback_color = self.hsv_to_rgb(
+            self.rng.uniform(0, 1),
+            self.rng.uniform(0.6, 1.0),
+            self.rng.uniform(0.5, 0.9)
+        )
+        self.used_colors.append(fallback_color)
+        return fallback_color
+
+    def generate_distributed_colors(self, count):
+        """Generate a set of well-distributed colors across the spectrum."""
+        colors = []
+
+        if count <= 0:
+            return colors
+
+        # Use golden ratio for better distribution
+        golden_ratio = 0.618033988749895
+
+        for i in range(count):
+            # Distribute hues evenly with golden ratio offset
+            hue = (i * golden_ratio) % 1.0
+
+            # Vary saturation and value slightly for each color
+            saturation = 0.7 + 0.3 * self.rng.uniform(0, 1)  # 0.7-1.0
+            value = 0.6 + 0.3 * self.rng.uniform(0, 1)  # 0.6-0.9
+
+            color = self.hsv_to_rgb(hue, saturation, value)
+            colors.append(color)
+
+        return colors
+
+    def assign_colors_to_blocks(self):
+        """Assign random colors to blocks while ensuring symmetric blocks have the same color."""
+        # First, count how many unique colors we need
+        color_groups = []
+
+        # Identify symmetry groups from original block data
+        if 'blocks' in self.original_data:
+            for block_data in self.original_data['blocks']:
+                if 'symmetry' in block_data:
+                    symmetry = block_data['symmetry']
+                    block_name = block_data['name']
+
+                    if symmetry.get('type') == 'pair_symmetric':
+                        pair_with = symmetry.get('pair_with')
+                        if pair_with:
+                            # Create symmetry group
+                            group_key = tuple(sorted([block_name, pair_with]))
+                            if group_key not in self.symmetry_groups:
+                                self.symmetry_groups[group_key] = None  # Will assign color later
+                                color_groups.append(group_key)
+
+                    elif symmetry.get('type') == 'self_symmetric':
+                        # Self-symmetric blocks get their own color
+                        group_key = (block_name,)
+                        if group_key not in self.symmetry_groups:
+                            self.symmetry_groups[group_key] = None  # Will assign color later
+                            color_groups.append(group_key)
+
+        # Count individual blocks (not in symmetry groups)
+        individual_blocks = []
+        for block_name in self.blocks.keys():
+            is_in_group = False
+            for group_key in self.symmetry_groups.keys():
+                if block_name in group_key:
+                    is_in_group = True
+                    break
+            if not is_in_group:
+                individual_blocks.append(block_name)
+
+        # Generate well-distributed colors
+        total_colors_needed = len(color_groups) + len(individual_blocks)
+
+        if total_colors_needed > 0:
+            # Use distributed color generation for better results
+            distributed_colors = self.generate_distributed_colors(total_colors_needed)
+            self.rng.shuffle(distributed_colors)  # Shuffle to randomize assignment
+
+            color_index = 0
+
+            # Assign colors to symmetry groups
+            for group_key in color_groups:
+                if color_index < len(distributed_colors):
+                    self.symmetry_groups[group_key] = distributed_colors[color_index]
+                    color_index += 1
+                else:
+                    # Fallback to random generation if we run out
+                    self.symmetry_groups[group_key] = self.generate_random_color()
+
+            # Assign colors to blocks based on symmetry groups
+            for block_name, block in self.blocks.items():
+                color_assigned = False
+
+                # Check if this block is part of any symmetry group
+                for group_key, color in self.symmetry_groups.items():
+                    if block_name in group_key:
+                        block.color = color
+                        color_assigned = True
+                        break
+
+                # If not part of any symmetry group, assign individual color
+                if not color_assigned:
+                    if color_index < len(distributed_colors):
+                        block.color = distributed_colors[color_index]
+                        color_index += 1
+                    else:
+                        # Fallback to random generation
+                        block.color = self.generate_random_color()
 
     def extract_blocks_and_tree(self):
         """Extracts blocks and B* tree structure from JSON data."""
@@ -148,6 +320,9 @@ class InitialPlacer:
 
                 self.blocks[block.name] = block
 
+        # Assign colors to blocks based on symmetry
+        self.assign_colors_to_blocks()
+
         # Parse B* tree structure
         bstar_tree_data = self.original_data['bstar_tree']
         if 'root' in bstar_tree_data:
@@ -161,6 +336,18 @@ class InitialPlacer:
             return None
 
         node = PlacementTreeNode(node_data['name'])
+
+        # Assign color to tree node based on its units
+        if 'units' in node_data and node_data['units']:
+            # Use the color of the first unit's block
+            first_unit = node_data['units'][0]
+            if 'l_half' in first_unit:
+                block_name = first_unit['l_half']['name']
+                if block_name in self.blocks:
+                    node.color = self.blocks[block_name].color
+        else:
+            # If no units, assign random color
+            node.color = self.generate_random_color()
 
         # Parse units
         if 'units' in node_data:
@@ -331,11 +518,12 @@ class InitialPlacer:
         if not node_data or not placement_node:
             return
 
-        # Update node coordinates
+        # Update node coordinates and color
         node_data['x_min'] = round(placement_node.x_min, 6)
         node_data['y_min'] = round(placement_node.y_min, 6)
         node_data['x_max'] = round(placement_node.x_max, 6)
         node_data['y_max'] = round(placement_node.y_max, 6)
+        node_data['color'] = placement_node.color
 
         # Update unit coordinates
         if 'units' in node_data and placement_node.units:
@@ -352,6 +540,7 @@ class InitialPlacer:
                         l_half_data['y_max'] = round(unit.l_half.y_max, 6)
                         l_half_data['width'] = round(unit.l_half.width, 6)
                         l_half_data['height'] = round(unit.l_half.height, 6)
+                        l_half_data['color'] = unit.l_half.color
                         if unit.l_half.current_variant:
                             l_half_data['current_variant'] = unit.l_half.current_variant
                             l_half_data['variant_index'] = unit.l_half.variant_index
@@ -365,6 +554,7 @@ class InitialPlacer:
                         r_half_data['y_max'] = round(unit.r_half.y_max, 6)
                         r_half_data['width'] = round(unit.r_half.width, 6)
                         r_half_data['height'] = round(unit.r_half.height, 6)
+                        r_half_data['color'] = unit.r_half.color
                         if unit.r_half.current_variant:
                             r_half_data['current_variant'] = unit.r_half.current_variant
                             r_half_data['variant_index'] = unit.r_half.variant_index

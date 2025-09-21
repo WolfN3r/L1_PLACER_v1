@@ -19,12 +19,22 @@ class VisualizationBlock:
         self.y_max = 0.0
         self.device_type = ""
         self.current_variant = None
+        self.color = "FFFFFF"  # Default white color
 
     def get_center_x(self):
         return (self.x_min + self.x_max) * 0.5
 
     def get_center_y(self):
         return (self.y_min + self.y_max) * 0.5
+
+    def get_hex_color(self):
+        """Convert hex color to matplotlib color format."""
+        if self.color and len(self.color) == 6:
+            try:
+                return f"#{self.color}"
+            except ValueError:
+                return "#FFFFFF"  # Default to white if invalid
+        return "#FFFFFF"
 
 
 class VisualizationTreeNode:
@@ -39,6 +49,16 @@ class VisualizationTreeNode:
         self.y_min = 0.0
         self.x_max = 0.0
         self.y_max = 0.0
+        self.color = "FFFFFF"  # Default white color
+
+    def get_hex_color(self):
+        """Convert hex color to matplotlib color format."""
+        if self.color and len(self.color) == 6:
+            try:
+                return f"#{self.color}"
+            except ValueError:
+                return "#FF8C00"  # Default to orange if invalid
+        return "#FF8C00"
 
 
 class VisualizationUnit:
@@ -129,6 +149,7 @@ class PlacementVisualizer:
         node.y_min = node_data.get('y_min', 0.0)
         node.x_max = node_data.get('x_max', 0.0)
         node.y_max = node_data.get('y_max', 0.0)
+        node.color = node_data.get('color', 'FFFFFF')
 
         # Parse units and extract block information
         if 'units' in node_data:
@@ -150,6 +171,7 @@ class PlacementVisualizer:
                     l_half_block.x_max = l_half_data.get('x_max', 0.0)
                     l_half_block.y_max = l_half_data.get('y_max', 0.0)
                     l_half_block.current_variant = l_half_data.get('current_variant')
+                    l_half_block.color = l_half_data.get('color', 'FFFFFF')
 
                 # Extract r_half block
                 r_half_name = r_half_data.get('name', '')
@@ -165,6 +187,7 @@ class PlacementVisualizer:
                     r_half_block.x_max = r_half_data.get('x_max', 0.0)
                     r_half_block.y_max = r_half_data.get('y_max', 0.0)
                     r_half_block.current_variant = r_half_data.get('current_variant')
+                    r_half_block.color = r_half_data.get('color', 'FFFFFF')
 
                 # Create visualization unit
                 l_half = self.blocks.get(l_half_name)
@@ -186,6 +209,10 @@ class PlacementVisualizer:
 
         return node
 
+    def is_symmetry_node(self, node_name):
+        """Check if a tree node represents a symmetry group."""
+        return node_name.startswith('sym_pair_') or node_name.startswith('sym_self_')
+
     def visualize_placement_and_tree(self):
         """Visualizes both block placement and tree structure in one window."""
         if not self.blocks or not self.tree_root:
@@ -203,24 +230,22 @@ class PlacementVisualizer:
         y_min = min(block.y_min for block in blocks_list)
         y_max = max(block.y_max for block in blocks_list)
 
-        # Assign colors to device types
-        device_types = list(set(block.device_type for block in blocks_list if block.device_type))
-        color_list = list(mcolors.TABLEAU_COLORS.values())
-        device_colors = {dtype: color_list[i % len(color_list)] for i, dtype in enumerate(device_types)}
-        device_colors[''] = 'lightgray'
-
+        # Draw blocks with their assigned colors
         for block in blocks_list:
-            color = device_colors.get(block.device_type, 'lightgray')
+            color = block.get_hex_color()
             rect = Rectangle((block.x_min, block.y_min),
                              block.x_max - block.x_min,
                              block.y_max - block.y_min,
-                             fill=True, edgecolor='black', facecolor=color, alpha=0.7)
+                             fill=True, edgecolor='black', facecolor=color, alpha=0.8)
             ax_blocks.add_patch(rect)
 
             center_x = block.get_center_x()
             center_y = block.get_center_y()
+
+            # Use white text for dark colors, black text for light colors
+            text_color = self.get_text_color(color)
             ax_blocks.text(center_x, center_y, block.name, ha='center', va='center',
-                           fontsize=10, fontweight='bold')
+                           fontsize=10, fontweight='bold', color=text_color)
 
         # Draw net connections
         if self.nets:
@@ -236,22 +261,25 @@ class PlacementVisualizer:
         ax_blocks.set_xlim(x_min - 1, x_max + 1)
         ax_blocks.set_ylim(y_min - 1, y_max + 1)
         ax_blocks.set_aspect('equal')
-        ax_blocks.set_title("Block Placement with Net Connections", fontsize=14, fontweight='bold')
+        ax_blocks.set_title("Block Placement with Custom Colors", fontsize=14, fontweight='bold')
         ax_blocks.set_xlabel('X Coordinate')
         ax_blocks.set_ylabel('Y Coordinate')
 
-        # Add legend
-        legend_elements = [plt.Rectangle((0, 0), 1, 1, facecolor=color, alpha=0.7, label=dtype if dtype else 'Unknown')
-                           for dtype, color in device_colors.items() if
-                           dtype or any(not b.device_type for b in blocks_list)]
-        if legend_elements:
-            ax_blocks.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1, 1))
-
         # --- Tree structure (right side) ---
-        def plot_node(node, x, y, depth, step=2.0, color='orange'):
+        def plot_node(node, x, y, depth, step=2.0):
+            # Use simple color scheme for tree nodes
+            if depth == 1:  # Root node
+                color = 'darkgreen'
+            elif self.is_symmetry_node(node.name):  # Symmetry nodes
+                color = 'blue'
+            else:  # Regular tree nodes
+                color = 'orange'
+
             circle = Circle((x, y), 0.2, color=color, ec='black', zorder=2)
             ax_tree.add_patch(circle)
-            ax_tree.text(x, y - 0.6, node.name, ha='center', va='top', fontsize=9, zorder=3)
+
+            ax_tree.text(x, y - 0.6, node.name, ha='center', va='top', fontsize=9,
+                         zorder=3, color='black', fontweight='bold')
 
             if hasattr(node, 'x_child') and node.x_child:
                 x_l = x + step
@@ -267,22 +295,42 @@ class PlacementVisualizer:
                               length_includes_head=True)
                 plot_node(node.y_child, x_r, y_r, depth + 1, step)
 
-        plot_node(self.tree_root, 0, 0, 1, color='darkgreen')
+        plot_node(self.tree_root, 0, 0, 1)
         ax_tree.set_aspect('equal')
         ax_tree.axis('off')
-        ax_tree.set_title("B* Tree Structure", fontsize=14, fontweight='bold')
+        ax_tree.set_title("B* Tree Structure with Custom Colors", fontsize=14, fontweight='bold')
 
         # Add legend for tree
         legend_elements_tree = [
             plt.Line2D([0], [0], color='green', lw=2, label='X-child (horizontal)'),
             plt.Line2D([0], [0], color='blue', lw=2, label='Y-child (vertical)'),
             plt.Circle((0, 0), 0.1, color='darkgreen', label='Root node'),
-            plt.Circle((0, 0), 0.1, color='orange', label='Tree nodes')
+            plt.Circle((0, 0), 0.1, color='orange', label='Regular nodes'),
+            plt.Circle((0, 0), 0.1, color='blue', label='Symmetry nodes')
         ]
         ax_tree.legend(handles=legend_elements_tree, loc='upper right')
 
         plt.tight_layout()
         plt.show()
+
+    def get_text_color(self, hex_color):
+        """Determine if text should be black or white based on background color brightness."""
+        try:
+            # Remove # if present
+            hex_color = hex_color.lstrip('#')
+
+            # Convert to RGB
+            r = int(hex_color[0:2], 16)
+            g = int(hex_color[2:4], 16)
+            b = int(hex_color[4:6], 16)
+
+            # Calculate brightness (luminance)
+            brightness = (r * 0.299 + g * 0.587 + b * 0.114)
+
+            # Return white text for dark backgrounds, black for light
+            return 'white' if brightness < 128 else 'black'
+        except (ValueError, IndexError):
+            return 'black'  # Default to black if color parsing fails
 
     def print_placement_statistics(self):
         """Prints placement statistics."""
@@ -305,6 +353,7 @@ class PlacementVisualizer:
                 print("\nDevice type counts:")
                 for device_type, count in device_counts.items():
                     print(f"  {device_type}: {count}")
+
         else:
             print("No placement statistics available.")
 
