@@ -998,7 +998,7 @@
   "bstar_tree": {
     "description": "B* tree structure with initial block placement",
     "root": {
-      "name": "MM6",
+      "name": "sym_pair_MM2_MM3",
       "type": "tree_node",
       "x_min": 0.0,
       "y_min": 0.0,
@@ -1007,35 +1007,35 @@
       "units": [
         {
           "l_half": {
-            "name": "MM6",
+            "name": "MM3",
             "width": 1.9,
-            "height": 8.48,
+            "height": 4.74,
             "x_min": 0.0,
             "y_min": 0.0,
             "x_max": 1.9,
-            "y_max": 8.48,
+            "y_max": 4.74,
             "current_variant": {
               "width": 1.9,
-              "height": 8.48,
+              "height": 4.74,
               "column_multiple": 1,
-              "row_multiple": 2,
+              "row_multiple": 1,
               "is_default": true
             },
             "variant_index": 0
           },
           "r_half": {
-            "name": "MM6",
+            "name": "MM2",
             "width": 1.9,
-            "height": 8.48,
-            "x_min": 0.0,
+            "height": 4.74,
+            "x_min": 1.9,
             "y_min": 0.0,
-            "x_max": 1.9,
-            "y_max": 8.48,
+            "x_max": 3.8,
+            "y_max": 4.74,
             "current_variant": {
               "width": 1.9,
-              "height": 8.48,
+              "height": 4.74,
               "column_multiple": 1,
-              "row_multiple": 2,
+              "row_multiple": 1,
               "is_default": true
             },
             "variant_index": 0
@@ -1045,44 +1045,44 @@
         }
       ],
       "x_child": {
-        "name": "MM4",
+        "name": "MM7",
         "type": "tree_node",
-        "x_min": 1.9,
+        "x_min": 3.8,
         "y_min": 0.0,
         "x_max": 28.11,
         "y_max": 55.4,
         "units": [
           {
             "l_half": {
-              "name": "MM4",
+              "name": "MM7",
               "width": 1.9,
-              "height": 18.96,
-              "x_min": 1.9,
+              "height": 8.48,
+              "x_min": 3.8,
               "y_min": 0.0,
-              "x_max": 3.8,
-              "y_max": 18.96,
+              "x_max": 5.7,
+              "y_max": 8.48,
               "current_variant": {
                 "width": 1.9,
-                "height": 18.96,
+                "height": 8.48,
                 "column_multiple": 1,
-                "row_multiple": 4,
+                "row_multiple": 2,
                 "is_default": true
               },
               "variant_index": 0
             },
             "r_half": {
-              "name": "MM4",
+              "name": "MM7",
               "width": 1.9,
-              "height": 18.96,
-              "x_min": 1.9,
+              "height": 8.48,
+              "x_min": 3.8,
               "y_min": 0.0,
-              "x_max": 3.8,
-              "y_max": 18.96,
+              "x_max": 5.7,
+              "y_max": 8.48,
               "current_variant": {
                 "width": 1.9,
-                "height": 18.96,
+                "height": 8.48,
                 "column_multiple": 1,
-                "row_multiple": 4,
+                "row_multiple": 2,
                 "is_default": true
               },
               "variant_index": 0
@@ -1092,44 +1092,44 @@
           }
         ],
         "x_child": {
-          "name": "MM8",
+          "name": "MM10",
           "type": "tree_node",
-          "x_min": 3.8,
+          "x_min": 5.7,
           "y_min": 0.0,
           "x_max": 28.11,
           "y_max": 55.4,
           "units": [
             {
               "l_half": {
-                "name": "MM8",
+                "name": "MM10",
                 "width": 1.9,
-                "height": 8.48,
-                "x_min": 3.8,
+                "height": 55.4,
+                "x_min": 5.7,
                 "y_min": 0.0,
-                "x_max": 5.7,
-                "y_max": 8.48,
+                "x_max": 7.6,
+                "y_max": 55.4,
                 "current_variant": {
                   "width": 1.9,
-                  "height": 8.48,
+                  "height": 55.4,
                   "column_multiple": 1,
-                  "row_multiple": 2,
+                  "row_multiple": 10,
                   "is_default": true
                 },
                 "variant_index": 0
               },
               "r_half": {
-                "name": "MM8",
+                "name": "MM10",
                 "width": 1.9,
-                "height": 8.48,
-                "x_min": 3.8,
+                "height": 55.4,
+                "x_min": 5.7,
                 "y_min": 0.0,
-                "x_max": 5.7,
-                "y_max": 8.48,
+                "x_max": 7.6,
+                "y_max": 55.4,
                 "current_variant": {
                   "width": 1.9,
-                  "height": 8.48,
+                  "height": 55.4,
                   "column_multiple": 1,
-                  "row_multiple": 2,
+                  "row_multiple": 10,
                   "is_default": true
                 },
                 "variant_index": 0
@@ -1139,44 +1139,44 @@
             }
           ],
           "x_child": {
-            "name": "sym_pair_MM2_MM3",
+            "name": "MM8",
             "type": "tree_node",
-            "x_min": 5.7,
+            "x_min": 7.6,
             "y_min": 0.0,
             "x_max": 28.11,
-            "y_max": 55.4,
+            "y_max": 18.96,
             "units": [
               {
                 "l_half": {
-                  "name": "MM3",
+                  "name": "MM8",
                   "width": 1.9,
-                  "height": 4.74,
-                  "x_min": 5.7,
+                  "height": 8.48,
+                  "x_min": 7.6,
                   "y_min": 0.0,
-                  "x_max": 7.6,
-                  "y_max": 4.74,
+                  "x_max": 9.5,
+                  "y_max": 8.48,
                   "current_variant": {
                     "width": 1.9,
-                    "height": 4.74,
+                    "height": 8.48,
                     "column_multiple": 1,
-                    "row_multiple": 1,
+                    "row_multiple": 2,
                     "is_default": true
                   },
                   "variant_index": 0
                 },
                 "r_half": {
-                  "name": "MM2",
+                  "name": "MM8",
                   "width": 1.9,
-                  "height": 4.74,
+                  "height": 8.48,
                   "x_min": 7.6,
                   "y_min": 0.0,
                   "x_max": 9.5,
-                  "y_max": 4.74,
+                  "y_max": 8.48,
                   "current_variant": {
                     "width": 1.9,
-                    "height": 4.74,
+                    "height": 8.48,
                     "column_multiple": 1,
-                    "row_multiple": 1,
+                    "row_multiple": 2,
                     "is_default": true
                   },
                   "variant_index": 0
@@ -1186,44 +1186,44 @@
               }
             ],
             "x_child": {
-              "name": "MM10",
+              "name": "MM5",
               "type": "tree_node",
               "x_min": 9.5,
               "y_min": 0.0,
               "x_max": 28.11,
-              "y_max": 55.4,
+              "y_max": 18.96,
               "units": [
                 {
                   "l_half": {
-                    "name": "MM10",
+                    "name": "MM5",
                     "width": 1.9,
-                    "height": 55.4,
+                    "height": 18.96,
                     "x_min": 9.5,
                     "y_min": 0.0,
                     "x_max": 11.4,
-                    "y_max": 55.4,
+                    "y_max": 18.96,
                     "current_variant": {
                       "width": 1.9,
-                      "height": 55.4,
+                      "height": 18.96,
                       "column_multiple": 1,
-                      "row_multiple": 10,
+                      "row_multiple": 4,
                       "is_default": true
                     },
                     "variant_index": 0
                   },
                   "r_half": {
-                    "name": "MM10",
+                    "name": "MM5",
                     "width": 1.9,
-                    "height": 55.4,
+                    "height": 18.96,
                     "x_min": 9.5,
                     "y_min": 0.0,
                     "x_max": 11.4,
-                    "y_max": 55.4,
+                    "y_max": 18.96,
                     "current_variant": {
                       "width": 1.9,
-                      "height": 55.4,
+                      "height": 18.96,
                       "column_multiple": 1,
-                      "row_multiple": 10,
+                      "row_multiple": 4,
                       "is_default": true
                     },
                     "variant_index": 0
@@ -1233,7 +1233,7 @@
                 }
               ],
               "x_child": {
-                "name": "MM7",
+                "name": "MM4",
                 "type": "tree_node",
                 "x_min": 11.4,
                 "y_min": 0.0,
@@ -1242,35 +1242,35 @@
                 "units": [
                   {
                     "l_half": {
-                      "name": "MM7",
+                      "name": "MM4",
                       "width": 1.9,
-                      "height": 8.48,
+                      "height": 18.96,
                       "x_min": 11.4,
                       "y_min": 0.0,
                       "x_max": 13.3,
-                      "y_max": 8.48,
+                      "y_max": 18.96,
                       "current_variant": {
                         "width": 1.9,
-                        "height": 8.48,
+                        "height": 18.96,
                         "column_multiple": 1,
-                        "row_multiple": 2,
+                        "row_multiple": 4,
                         "is_default": true
                       },
                       "variant_index": 0
                     },
                     "r_half": {
-                      "name": "MM7",
+                      "name": "MM4",
                       "width": 1.9,
-                      "height": 8.48,
+                      "height": 18.96,
                       "x_min": 11.4,
                       "y_min": 0.0,
                       "x_max": 13.3,
-                      "y_max": 8.48,
+                      "y_max": 18.96,
                       "current_variant": {
                         "width": 1.9,
-                        "height": 8.48,
+                        "height": 18.96,
                         "column_multiple": 1,
-                        "row_multiple": 2,
+                        "row_multiple": 4,
                         "is_default": true
                       },
                       "variant_index": 0
@@ -1280,44 +1280,44 @@
                   }
                 ],
                 "x_child": {
-                  "name": "MM5",
+                  "name": "MM11",
                   "type": "tree_node",
                   "x_min": 13.3,
                   "y_min": 0.0,
                   "x_max": 28.11,
-                  "y_max": 18.96,
+                  "y_max": 11.08,
                   "units": [
                     {
                       "l_half": {
-                        "name": "MM5",
+                        "name": "MM11",
                         "width": 1.9,
-                        "height": 18.96,
+                        "height": 11.08,
                         "x_min": 13.3,
                         "y_min": 0.0,
                         "x_max": 15.2,
-                        "y_max": 18.96,
+                        "y_max": 11.08,
                         "current_variant": {
                           "width": 1.9,
-                          "height": 18.96,
+                          "height": 11.08,
                           "column_multiple": 1,
-                          "row_multiple": 4,
+                          "row_multiple": 2,
                           "is_default": true
                         },
                         "variant_index": 0
                       },
                       "r_half": {
-                        "name": "MM5",
+                        "name": "MM11",
                         "width": 1.9,
-                        "height": 18.96,
+                        "height": 11.08,
                         "x_min": 13.3,
                         "y_min": 0.0,
                         "x_max": 15.2,
-                        "y_max": 18.96,
+                        "y_max": 11.08,
                         "current_variant": {
                           "width": 1.9,
-                          "height": 18.96,
+                          "height": 11.08,
                           "column_multiple": 1,
-                          "row_multiple": 4,
+                          "row_multiple": 2,
                           "is_default": true
                         },
                         "variant_index": 0
@@ -1327,7 +1327,7 @@
                     }
                   ],
                   "x_child": {
-                    "name": "MM11",
+                    "name": "MM6",
                     "type": "tree_node",
                     "x_min": 15.2,
                     "y_min": 0.0,
@@ -1336,16 +1336,16 @@
                     "units": [
                       {
                         "l_half": {
-                          "name": "MM11",
+                          "name": "MM6",
                           "width": 1.9,
-                          "height": 11.08,
+                          "height": 8.48,
                           "x_min": 15.2,
                           "y_min": 0.0,
                           "x_max": 17.1,
-                          "y_max": 11.08,
+                          "y_max": 8.48,
                           "current_variant": {
                             "width": 1.9,
-                            "height": 11.08,
+                            "height": 8.48,
                             "column_multiple": 1,
                             "row_multiple": 2,
                             "is_default": true
@@ -1353,16 +1353,16 @@
                           "variant_index": 0
                         },
                         "r_half": {
-                          "name": "MM11",
+                          "name": "MM6",
                           "width": 1.9,
-                          "height": 11.08,
+                          "height": 8.48,
                           "x_min": 15.2,
                           "y_min": 0.0,
                           "x_max": 17.1,
-                          "y_max": 11.08,
+                          "y_max": 8.48,
                           "current_variant": {
                             "width": 1.9,
-                            "height": 11.08,
+                            "height": 8.48,
                             "column_multiple": 1,
                             "row_multiple": 2,
                             "is_default": true
