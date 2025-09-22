@@ -9,6 +9,7 @@ def main():
     input_filename = 'loadDevices_in01'
     bstar_output_filename = 'loadDevices_out01'
     placement_output_filename = 'initPlacement_out01'
+    SA_output_filename = 'initSimulatedAnnealing_out01'
     # wmi TODO: change the code to be compatible with n8n JSON input and output
     # wmi TODO: do not filter data, just add new keys to the existing JSON structure
     # structure of the data flow has to be linear, no branches
@@ -40,7 +41,16 @@ def main():
     #######################################################################################
     # Optimize Placement
     SAoptimizer = SimulatedAnnealingOptimizer()
-    SAoptimizer.main_local(placement_output_filename, placement_output_filename)
+    SAoptimizer.set_optimization_parameters(
+        initial_temp=2000.0,
+        final_temp=1.0,
+        cooling_rate=0.98,
+        max_iterations=2000,
+        timeout_seconds=120,
+        patience=500,
+        aspect_ratio_target=2.0
+    )
+    SAoptimizer.main_local(placement_output_filename, SA_output_filename)
     #######################################################################################
 
     #######################################################################################
