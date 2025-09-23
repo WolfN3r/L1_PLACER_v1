@@ -48,7 +48,7 @@ def main():
         max_iterations=2000,
         timeout_seconds=120,
         patience=500,
-        aspect_ratio_target=2.0
+        aspect_ratio_target=1.0
     )
     SAoptimizer.main_local(placement_output_filename, SA_output_filename)
     #######################################################################################
