@@ -55,7 +55,8 @@ def main():
 
     #######################################################################################
     # Visualization
-    VisuAlize.main_local(placement_output_filename)
+    IPlacer.main_local(SA_output_filename, SA_output_filename)
+    VisuAlize.main_local(SA_output_filename)
     #######################################################################################
 
 if __name__ == "__main__":
