@@ -55,7 +55,6 @@ def main():
 
     #######################################################################################
     # Visualization
-    IPlacer.main_local(SA_output_filename, SA_output_filename)
     VisuAlize.main_local(SA_output_filename)
     #######################################################################################
 
